@@ -1,14 +1,17 @@
-package dan.competition.device.model;
+package dan.competition.device.model.websocket;
 
-import dan.competition.device.model.websocket.PatientDataWebSocket;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Builder
-public class PatientData {
+@NoArgsConstructor
+@AllArgsConstructor
+public class PatientDataWebSocket {
 
     private Long id;
 
@@ -44,19 +47,4 @@ public class PatientData {
     private List<String> diagnoses;
 
     private Boolean status;
-
-    public static PatientData fromWebSocket(PatientDataWebSocket patientDataWebSocket) {
-        return PatientData.builder()
-                .id(patientDataWebSocket.getId())
-                .name(patientDataWebSocket.getName())
-                .age(patientDataWebSocket.getAge())
-                .ph(patientDataWebSocket.getPh())
-                .co2(patientDataWebSocket.getCo2())
-                .glu(patientDataWebSocket.getGlu())
-                .lac(patientDataWebSocket.getLac())
-                .be(patientDataWebSocket.getBe())
-                .diagnoses(patientDataWebSocket.getDiagnoses())
-                .status(patientDataWebSocket.getStatus())
-                .build();
-    }
 }

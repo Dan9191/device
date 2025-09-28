@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/device")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class PatientController {
 
     private final AppConfig appConfig;
@@ -23,8 +23,6 @@ public class PatientController {
 
     @GetMapping("/status")
     public boolean getStatus() {
-        return appConfig.isInStream();
+        return appConfig.getPatientData().getStatus();
     }
-
-
 }

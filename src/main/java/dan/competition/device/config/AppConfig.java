@@ -4,6 +4,7 @@ package dan.competition.device.config;
 import dan.competition.device.model.PatientData;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Свойства приложения.
  */
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "medical.device")
 @Data
 public class AppConfig {
@@ -26,7 +27,11 @@ public class AppConfig {
             .co2(1234.2f)
             .lac(1234.2f)
             .glu(1234.2f)
+            .status(false) // Добавлено
             .build();
 
-    private boolean inStream = true;
+    private boolean inStream = false;
+
+
+    private String sourceUrl = "ws://localhost:8097/ws";
 }
