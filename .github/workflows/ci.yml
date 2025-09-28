@@ -100,16 +100,16 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
           sudo chmod +x /usr/bin/yq
 
-#      - name: Clone infra repo
-#        run: |
-#          git clone https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/dan6103605/infra.git
-#          cd infra
-#          git config user.email "ci@github"
-#          git config user.name "GitHub Actions"
-#
-#          # обновляем тег образа в deployment.yaml
-#          yq -i '.spec.template.spec.containers[0].image = "ghcr.io/dan9191/device:sha-${{ github.sha }}"' apps/backend/device/deployment.yaml
-#
-#          git add apps/backend/device/deployment.yaml
-#          git commit -m "Update device image to sha-${{ github.sha }}"
-#          git push origin main
+      - name: Clone infra repo
+        run: |
+          git clone https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/dan6103605/infra.git
+          cd infra
+          git config user.email "ci@github"
+          git config user.name "GitHub Actions"
+
+          # обновляем тег образа в deployment.yaml
+          yq -i '.spec.template.spec.containers[0].image = "ghcr.io/dan9191/device:sha-${{ github.sha }}"' apps/backend/device/deployment.yaml
+
+          git add apps/backend/device/deployment.yaml
+          git commit -m "Update device image to sha-${{ github.sha }}"
+          git push origin main
