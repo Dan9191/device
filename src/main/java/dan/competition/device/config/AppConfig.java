@@ -23,12 +23,12 @@ public class AppConfig {
                 new Complications(2L,
                         "Тахикардия",
                         "Увеличение частоты сердечных сокращений",
-                        "avgBpm > 160"
+                        "avgBpm > bpmMax"
                 ),
                 new Complications(3L,
                         "Брадикардия",
                         "Замедление частоты сердечных сокращений",
-                        "avgBpm < 110"
+                        "avgBpm < bpmMin"
                 ),
                 new Complications(4L,
                         "Вариабельность сердечного ритма",

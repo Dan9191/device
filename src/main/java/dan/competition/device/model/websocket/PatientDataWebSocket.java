@@ -44,7 +44,7 @@ public class PatientDataWebSocket {
      */
     private Float be;
 
-    private List<String> diagnoses;
+    private List<DiagnosisDTO> diagnoses;
 
     private Boolean status;
 }

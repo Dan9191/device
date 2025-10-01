@@ -1,6 +1,5 @@
 package dan.competition.device.config;
 
-import dan.competition.device.model.PatientData;
 import dan.competition.device.model.websocket.MedicalDataWebSocket;
 import dan.competition.device.model.websocket.PatientDataWebSocket;
 import dan.competition.device.service.MessageHandlerService;
@@ -57,7 +56,7 @@ public class CustomStompSessionHandler extends StompSessionHandlerAdapter {
             log.warn("Received frame without destination: {}", payload);
             return;
         }
-        log.info("Received message on {}", destination);
+        log.debug("Received message on {}", destination);
         switch (destination) {
             case "/topic/patient" -> messageHandlerService.handlePatientData((PatientDataWebSocket) payload);
             case "/topic/data"    -> messageHandlerService.handleMedicalData((MedicalDataWebSocket) payload);

@@ -1,6 +1,5 @@
 package dan.competition.device.controller;
 
-import dan.competition.device.config.AppProperties;
 import dan.competition.device.model.PatientData;
 import dan.competition.device.service.MessageHandlerService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"http://localhost:3000"})
 public class PatientController {
-
-    private final AppProperties appConfig;
 
     private final MessageHandlerService messageHandlerService;
 

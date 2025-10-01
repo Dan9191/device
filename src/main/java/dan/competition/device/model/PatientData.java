@@ -1,5 +1,6 @@
 package dan.competition.device.model;
 
+import dan.competition.device.model.websocket.DiagnosisDTO;
 import dan.competition.device.model.websocket.PatientDataWebSocket;
 import lombok.Builder;
 import lombok.Data;
@@ -46,6 +47,7 @@ public class PatientData {
     private Boolean status;
 
     public static PatientData fromWebSocket(PatientDataWebSocket patientDataWebSocket) {
+        List<String> diagnoses = patientDataWebSocket.getDiagnoses().stream().map(DiagnosisDTO::getName).toList();
         return PatientData.builder()
                 .id(patientDataWebSocket.getId())
                 .name(patientDataWebSocket.getName())
@@ -55,7 +57,7 @@ public class PatientData {
                 .glu(patientDataWebSocket.getGlu())
                 .lac(patientDataWebSocket.getLac())
                 .be(patientDataWebSocket.getBe())
-                .diagnoses(patientDataWebSocket.getDiagnoses())
+                .diagnoses(diagnoses)
                 .status(patientDataWebSocket.getStatus())
                 .build();
     }

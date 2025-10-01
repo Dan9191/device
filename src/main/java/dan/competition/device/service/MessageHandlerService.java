@@ -4,6 +4,7 @@ import dan.competition.device.config.AppProperties;
 import dan.competition.device.model.Complications;
 import dan.competition.device.model.PatientData;
 import dan.competition.device.model.Prediction;
+import dan.competition.device.model.websocket.DiagnosisDTO;
 import dan.competition.device.model.websocket.MedicalDataWebSocket;
 import dan.competition.device.model.websocket.PatientDataWebSocket;
 import groovy.lang.Binding;
@@ -93,6 +94,14 @@ public class MessageHandlerService {
         avgVariables.put("fullAvgUterus", 0.0);
         // текущий риск осложнений
         avgVariables.put("riskComplications", 0.0);
+        // нижняя граница нормы частоты сердечных сокращений плода
+        avgVariables.put("bpmMin", 110.0);
+        // верхняя граница нормы частоты сердечных сокращений плода
+        avgVariables.put("bpmMax", 160.0);
+        // нижняя граница нормы сократительной активность матки
+        avgVariables.put("uterusMin", 0.0);
+        // верхняя граница нормы сократительной активность матки
+        avgVariables.put("uterusMax", 60.0);
 
 
         prevPatientData = appConfig.getPatientData();
@@ -113,11 +122,11 @@ public class MessageHandlerService {
     /**
      * Обработка данных о пациенте с приборов.
      *
-     * @param patientDataWebSocket Данные о пациенте.
+     * @param patientDataWebSocketInput Данные о пациенте.
      */
-    public void handlePatientData(PatientDataWebSocket patientDataWebSocket) {
-        log.info("Received PatientData: {}", patientDataWebSocket);
-        PatientData patientData = PatientData.fromWebSocket(patientDataWebSocket);
+    public void handlePatientData(PatientDataWebSocket patientDataWebSocketInput) {
+        log.info("Received PatientData: {}", patientDataWebSocketInput);
+        PatientData patientData = PatientData.fromWebSocket(patientDataWebSocketInput);
 
         // Если пришел новый пациент - обнулим текущие данные.
         if (!patientData.getId().equals(prevPatientData.getId())) {
@@ -127,17 +136,38 @@ public class MessageHandlerService {
             avgVariables.put("prevAvgUterus", 0.0);
             avgVariables.put("fullAvgBpm", 0.0);
             avgVariables.put("fullAvgUterus", 0.0);
-            avgVariables.put("riskComplications", 10.0);
+            avgVariables.put("riskComplications", 0.0);
+            avgVariables.put("bpmMin", 110.0);
+            avgVariables.put("bpmMax", 160.0);
+            avgVariables.put("uterusMin", 0.0);
+            avgVariables.put("uterusMax", 60.0);
+
             bpmWindow = new ArrayList<>();
             uterusWindow = new ArrayList<>();
             currentWindowIndex = -1;
             windowCount = 0;
             riskCounters = new ConcurrentHashMap<>();
+
+            // применяем impact-groovy скрипты диагнозов
+            List<DiagnosisDTO> diagnoses = patientDataWebSocketInput.getDiagnoses();
+
+            GroovyShell shell = new GroovyShell(new Binding(avgVariables));
+            for (DiagnosisDTO diagnosis : diagnoses) {
+                String script = diagnosis.getImpact();
+                if (script != null && !script.trim().isEmpty() && !script.contains("нет влияния")) {
+                    try {
+                        shell.evaluate(script);
+                        log.info("Applied impact script for diagnosis {}: {}", diagnosis.getName(), script);
+                    } catch (Exception e) {
+                        log.error("Error executing impact script for {}: {}", diagnosis.getName(), e.getMessage());
+                    }
+                }
+            }
+
+            log.info("Base avgVariables after diagnosis impact: {}", avgVariables);
         }
 
         prevPatientData = patientData;
-
-        // todo Реализовать вычисление базовых средних значений на основе диагнозов
     }
 
     /**
