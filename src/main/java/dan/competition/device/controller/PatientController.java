@@ -1,7 +1,8 @@
 package dan.competition.device.controller;
 
-import dan.competition.device.config.AppConfig;
+import dan.competition.device.config.AppProperties;
 import dan.competition.device.model.PatientData;
+import dan.competition.device.service.MessageHandlerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = {"http://localhost:3000"})
 public class PatientController {
 
-    private final AppConfig appConfig;
+    private final AppProperties appConfig;
+
+    private final MessageHandlerService messageHandlerService;
 
     @GetMapping("/patient")
     public PatientData getCurrentPatient() {
-        return appConfig.getPatientData();
+        return messageHandlerService.getPatientData();
     }
 
-    @GetMapping("/status")
-    public boolean getStatus() {
-        return appConfig.getPatientData().getStatus();
-    }
 }

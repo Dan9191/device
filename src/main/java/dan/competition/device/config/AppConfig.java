@@ -1,37 +1,40 @@
 package dan.competition.device.config;
 
-
-import dan.competition.device.model.PatientData;
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import dan.competition.device.model.Complications;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * Свойства приложения.
+ * Конфигурация приложения.
  */
 @Configuration
-@ConfigurationProperties(prefix = "medical.device")
-@Data
 public class AppConfig {
 
-    private PatientData patientData = PatientData.builder()
-            .id(33L)
-            .name("12-regular")
-            .diagnoses(List.of("I своевременные роды", "Анемия"))
-            .age(22)
-            .be(1234.2f)
-            .ph(1234.2f)
-            .co2(1234.2f)
-            .lac(1234.2f)
-            .glu(1234.2f)
-            .status(false) // Добавлено
-            .build();
-
-    private boolean inStream = false;
-
-
-    private String sourceUrl = "ws://localhost:8097/ws";
+    @Bean
+    public List<Complications> complicationsList() {
+        return List.of(
+                new Complications(1L,
+                        "Децелерация",
+                        "Эпизод снижения частоты сердечных сокращений (ЧСС) плода на 15 ударов в минуту и более продолжительностью от 15 секунд",
+                        "false"
+                ),
+                new Complications(2L,
+                        "Тахикардия",
+                        "Увеличение частоты сердечных сокращений",
+                        "avgBpm > 160"
+                ),
+                new Complications(3L,
+                        "Брадикардия",
+                        "Замедление частоты сердечных сокращений",
+                        "avgBpm < 110"
+                ),
+                new Complications(4L,
+                        "Вариабельность сердечного ритма",
+                        "Показатель, который отражает разницу во времени между последовательными ударами сердца",
+                        "false"
+                )
+        );
+    }
 }

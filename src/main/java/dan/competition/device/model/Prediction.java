@@ -6,6 +6,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 
+/**
+ * Предсказание.
+ */
 @Data
 public class Prediction {
 
@@ -17,4 +20,7 @@ public class Prediction {
 
     @JsonProperty("severity")
     private String severity;
+
+    @JsonProperty("riskComplication")
+    private double riskComplication;
 }

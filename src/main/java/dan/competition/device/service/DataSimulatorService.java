@@ -1,6 +1,6 @@
 package dan.competition.device.service;
 
-import dan.competition.device.config.AppConfig;
+import dan.competition.device.config.AppProperties;
 import dan.competition.device.config.CustomStompSessionHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class DataSimulatorService {
     private final CustomStompSessionHandler stompSessionHandler;
     private StompSession stompSession;
     private volatile boolean isConnecting = false;
-    private final AppConfig appConfig;
+    private final AppProperties appConfig;
 
     @PostConstruct
     public void init() {
