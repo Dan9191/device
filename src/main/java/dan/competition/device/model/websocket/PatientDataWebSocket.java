@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Данные о пациенте.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -44,7 +47,13 @@ public class PatientDataWebSocket {
      */
     private Float be;
 
+    /**
+     * Список диагнозов.
+     */
     private List<DiagnosisDTO> diagnoses;
 
+    /**
+     * Статус потоковой обработки (в потоке/передача завершена).
+     */
     private Boolean status;
 }

@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Мед данные с приборов, передаваемые через WebSocket.
+ */
 @Data
 @Builder
 @NoArgsConstructor
