@@ -30,4 +30,6 @@ public class AppProperties {
             .build();
 
     private String sourceUrl = "ws://localhost:8097/ws";
+
+    private double windowDuration = 10.0;
 }

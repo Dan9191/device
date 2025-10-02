@@ -18,7 +18,7 @@ public class AppConfig {
                 new Complications(1L,
                         "Децелерация",
                         "Эпизод снижения частоты сердечных сокращений (ЧСС) плода на 15 ударов в минуту и более продолжительностью от 15 секунд",
-                        "false"
+                        "(prevAvgBpm - avgBpm) >= 15"
                 ),
                 new Complications(2L,
                         "Тахикардия",
@@ -33,7 +33,7 @@ public class AppConfig {
                 new Complications(4L,
                         "Вариабельность сердечного ритма",
                         "Показатель, который отражает разницу во времени между последовательными ударами сердца",
-                        "false"
+                        "Math.abs(avgBpm - prevAvgBpm) < 5 || Math.abs(avgBpm - prevAvgBpm) > 25"
                 )
         );
     }

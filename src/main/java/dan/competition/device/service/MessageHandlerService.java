@@ -38,7 +38,7 @@ public class MessageHandlerService {
     /**
      * Конфигурация приложения.
      */
-    private final AppProperties appConfig;
+    private final AppProperties appProperties;
 
     /**
      * Список частот сердечных сокращений плода за текущий период для нахождения среднего значения
@@ -104,7 +104,7 @@ public class MessageHandlerService {
         avgVariables.put("uterusMax", 60.0);
 
 
-        prevPatientData = appConfig.getPatientData();
+        prevPatientData = appProperties.getPatientData();
     }
 
     /**
@@ -114,7 +114,7 @@ public class MessageHandlerService {
      */
     public PatientData getPatientData() {
         if (prevPatientData == null) {
-            return appConfig.getPatientData();
+            return appProperties.getPatientData();
         }
         return prevPatientData;
     }
@@ -191,7 +191,7 @@ public class MessageHandlerService {
     private void dataProcessing(MedicalDataWebSocket medicalData) {
 
         // считаем номер 1-минутного окна
-        long windowIndex = (long) (medicalData.getTimeSec() / 10.0);
+        long windowIndex = (long) (medicalData.getTimeSec() / appProperties.getWindowDuration());
 
         // инициализация первого окна
         if (currentWindowIndex == -1) {
